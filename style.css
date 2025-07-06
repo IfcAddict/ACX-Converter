@@ -1,0 +1,116 @@
+/* Estilos personalizados inspirados en el código original */
+:root {
+    --bg-color: #F0F4F8;
+    --button-bg: #AED6F1;
+    --button-bg-hover: #85C1E9;
+    --text-color: #2C3E50;
+    --entry-bg: #FFFFFF;
+    --border-color: #D1D5DB;
+    --drop-zone-bg-hover: #EBF5FB;
+    --drop-zone-border-hover: #3498DB;
+    --progress-bar-bg: #3498DB;
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: 'Helvetica', sans-serif;
+    color: var(--text-color);
+}
+
+.btn {
+    background-color: var(--button-bg);
+    color: var(--text-color);
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: var(--button-bg-hover);
+}
+
+.card {
+    background-color: white;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.page {
+    display: none; /* Ocultar páginas por defecto */
+}
+
+.page.active {
+    display: block; /* Mostrar página activa */
+}
+
+.notification {
+    transition: opacity 0.5s, transform 0.5s;
+}
+
+.drop-zone {
+    border: 2px dashed var(--border-color);
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.drop-zone.drag-over {
+    background-color: var(--drop-zone-bg-hover);
+    border-color: var(--drop-zone-border-hover);
+}
+
+.progress-bar {
+    background-color: var(--progress-bar-bg);
+    transition: width 0.2s ease-out;
+}
+
+/* Estilos para los inputs que no se pueden hacer con Tailwind directamente */
+input[type="text"], input[type="number"], input[type="date"] {
+    background-color: var(--entry-bg);
+}
+
+/* Estilos para la tabla de previsualización del CSV */
+#file-content-preview table th,
+#file-content-preview table td {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #e5e7eb; /* gray-200 */
+    vertical-align: top;
+}
+
+#file-content-preview table th {
+    background-color: #f9fafb; /* gray-50 */
+    font-weight: 600;
+}
+
+#file-content-preview table tr:nth-child(even) {
+    background-color: #f9fafb; /* Mantiene un fondo consistente */
+}
+
+/* Estilos para las Pestañas */
+.tab-button {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-bottom: none;
+    background-color: #e5e7eb; /* gray-200 */
+    color: #4b5563; /* gray-600 */
+    border-radius: 0.25rem 0.25rem 0 0;
+    margin-right: 0.25rem;
+    font-size: 0.875rem;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.tab-button:hover {
+    background-color: #d1d5db; /* gray-300 */
+}
+
+.tab-button.active {
+    background-color: #f9fafb; /* gray-50 */
+    border-color: #d1d5db; /* gray-300 */
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}

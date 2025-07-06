@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor Múltiple</title>
+    <!-- Inclusión de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Enlace a la hoja de estilos personalizada -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="flex items-center justify-center min-h-screen">
+
+    <div class="container mx-auto p-4 max-w-4xl">
+        <!-- Contenedor para las notificaciones -->
+        <div id="notification-area" class="fixed top-5 right-5 z-50 space-y-2"></div>
+
+        <!-- Página Única de Conversión -->
+        <div id="converterPage" class="page active">
+            <div class="card p-8">
+                <h1 class="text-3xl font-bold mb-6 text-center">Conversor Múltiple de Archivos</h1>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <!-- Columna Izquierda: Carga de Archivo -->
+                    <div class="flex flex-col">
+                        <h2 class="text-xl font-semibold mb-4 text-center">1. Cargar Archivos</h2>
+                        <div id="file-drop-zone" class="drop-zone flex-grow p-6 rounded-lg text-center cursor-pointer flex flex-col justify-center items-center">
+                            <label for="file-input" class="w-full h-full flex flex-col justify-center items-center">
+                                <p class="text-gray-500">Arrastra archivos (.csv o .xml) aquí o <span class="text-blue-500 font-semibold">haz clic para seleccionar</span></p>
+                                <p id="file-count-display" class="text-sm text-green-600 font-semibold mt-2"></p>
+                            </label>
+                            <!-- **CAMBIO**: Añadido el atributo 'multiple' -->
+                            <input type="file" id="file-input" accept=".csv,.xml" class="hidden" multiple>
+                        </div>
+                        <div id="file-progress-container" class="w-full bg-gray-200 rounded-full h-2.5 hidden mt-2">
+                            <div id="file-progress-bar" class="progress-bar h-2.5 rounded-full" style="width: 0%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Columna Derecha: Acción y Metadatos -->
+                    <div class="flex flex-col">
+                        <h2 class="text-xl font-semibold mb-4 text-center">2. Convertir</h2>
+                        <form id="conversion-form" class="space-y-4 flex-grow flex flex-col">
+                            <div id="metadata-form-container" class="hidden space-y-4">
+                                <p class="text-sm text-gray-600">Se ha detectado al menos un archivo CSV. Completa los metadatos para la conversión a XML.</p>
+                                <fieldset class="border p-4 rounded-lg">
+                                    <legend class="px-2 font-semibold">Metadatos para XML</legend>
+                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                        <div><label for="meta-name" class="block font-medium text-sm">Name:</label><input type="text" id="meta-name" class="w-full p-2 border rounded-md text-sm" required></div>
+                                        <div><label for="meta-edition" class="block font-medium text-sm">Edition Version:</label><input type="text" id="meta-edition" class="w-full p-2 border rounded-md text-sm" required></div>
+                                        <div class="sm:col-span-2"><label for="meta-date" class="block font-medium text-sm">Edition Date:</label><input type="date" id="meta-date" class="w-full p-2 border rounded-md text-sm" required></div>
+                                        <div><label for="meta-source" class="block font-medium text-sm">Source:</label><input type="text" id="meta-source" class="w-full p-2 border rounded-md text-sm" required></div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="flex-grow flex items-end justify-center">
+                                <button type="submit" id="convert-button" class="btn font-bold py-3 px-8 rounded-lg text-lg" disabled>
+                                    Convertir Archivos
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- **NUEVO**: Sección de Previsualización con Pestañas -->
+                <div id="preview-section" class="mt-8 hidden">
+                    <h3 class="font-semibold mb-2 text-lg">Previsualización de Archivos</h3>
+                    <!-- Contenedor para las pestañas -->
+                    <div id="tab-container" class="flex border-b border-gray-300">
+                        <!-- Las pestañas se inyectarán aquí -->
+                    </div>
+                    <!-- Contenedor para el contenido de las pestañas -->
+                    <div id="tab-content-container" class="bg-gray-50 p-3 rounded-b-md text-xs h-64 overflow-auto border border-t-0">
+                        <!-- El contenido de la pestaña activa se inyectará aquí -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Carga el script principal como un módulo. -->
+    <script type="module" src="main.js"></script>
+</body>
+</html>
