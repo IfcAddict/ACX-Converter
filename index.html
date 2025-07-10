@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ACX Converter</title>
+    <title>Conversor Múltiple</title>
     <!-- Inclusión de Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Enlace a la hoja de estilos personalizada -->
@@ -18,7 +18,7 @@
         <!-- Página Única de Conversión -->
         <div id="converterPage" class="page active">
             <div class="card p-8">
-                <h1 class="text-3xl font-bold mb-6 text-center">ACX Converter</h1>
+                <h1 class="text-3xl font-bold mb-6 text-center">Conversor Múltiple de Archivos</h1>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     
@@ -31,7 +31,7 @@
                                 <p id="file-count-display" class="text-sm text-green-600 font-semibold mt-2"></p>
                             </label>
                             <!-- **CAMBIO**: Añadido el atributo 'multiple' -->
-                            <input type="file" id="file-input" accept=".csv,.xml" class="hidden" multiple>
+                            <input type="file" id="file-input" accept=".csv,.xml" class="visually-hidden" multiple>
                         </div>
                         <div id="file-progress-container" class="w-full bg-gray-200 rounded-full h-2.5 hidden mt-2">
                             <div id="file-progress-bar" class="progress-bar h-2.5 rounded-full" style="width: 0%"></div>
