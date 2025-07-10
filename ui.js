@@ -3,6 +3,8 @@ import { parseCsv } from './converters.js';
 
 /**
  * Muestra una notificación en la pantalla.
+ * @param {string} message - El mensaje a mostrar.
+ * @param {boolean} isError - Si es true, la notificación será de error.
  */
 export function showNotification(message, isError = false) {
     const area = document.getElementById('notification-area');
@@ -20,13 +22,17 @@ export function showNotification(message, isError = false) {
 
 /**
  * Configura una zona de 'arrastrar y soltar' para múltiples archivos.
+ * @param {string} dropZoneId - El ID de la zona de drop.
+ * @param {string} inputId - El ID del input de archivo oculto.
+ * @param {string} fileCountId - El ID del elemento <p> para mostrar el número de archivos.
+ * @param {Function} onFilesLoaded - Callback a ejecutar cuando se cargan los archivos.
  */
 export function setupDropZone(dropZoneId, inputId, fileCountId, onFilesLoaded) {
-    const dropZone = document.getElementById(dropZoneId);
+    const dropZoneLabel = document.getElementById(dropZoneId);
     const fileInput = document.getElementById(inputId);
     const fileCountDisplay = document.getElementById(fileCountId);
 
-    if (!dropZone || !fileInput || !fileCountDisplay) {
+    if (!dropZoneLabel || !fileInput || !fileCountDisplay) {
         console.error("Error al inicializar la zona de drop.");
         return;
     }
@@ -38,20 +44,22 @@ export function setupDropZone(dropZoneId, inputId, fileCountId, onFilesLoaded) {
         }
     };
 
-    dropZone.addEventListener('click', () => fileInput.click());
-    dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
-    ['dragleave', 'dragend'].forEach(type => dropZone.addEventListener(type, () => dropZone.classList.remove('drag-over')));
-    dropZone.addEventListener('drop', e => {
+    dropZoneLabel.addEventListener('dragover', e => { e.preventDefault(); dropZoneLabel.classList.add('drag-over'); });
+    ['dragleave', 'dragend'].forEach(type => dropZoneLabel.addEventListener(type, () => dropZoneLabel.classList.remove('drag-over')));
+    
+    dropZoneLabel.addEventListener('drop', e => {
         e.preventDefault();
-        dropZone.classList.remove('drag-over');
+        dropZoneLabel.classList.remove('drag-over');
         fileInput.files = e.dataTransfer.files;
         handleFiles(e.dataTransfer.files);
     });
+
     fileInput.addEventListener('change', () => handleFiles(fileInput.files));
 }
 
 /**
- * Muestra u oculta el formulario de metadatos.
+ * Muestra u oculta el formulario de metadatos y ajusta el atributo 'required'.
+ * @param {boolean} show - True para mostrar, false para ocultar.
  */
 export function toggleMetadataForm(show) {
     const container = document.getElementById('metadata-form-container');
@@ -73,19 +81,16 @@ export function renderFilePreviews(files) {
 
     if (!previewSection || !tabContainer || !contentContainer) return;
 
-    // Limpia el contenido anterior
     tabContainer.innerHTML = '';
     contentContainer.innerHTML = '';
     previewSection.classList.remove('hidden');
 
     files.forEach((file, index) => {
-        // Crea la pestaña
         const tab = document.createElement('button');
         tab.textContent = file.name;
         tab.className = 'tab-button';
         tab.dataset.index = index;
 
-        // Crea el panel de contenido (inicialmente oculto)
         const contentPanel = document.createElement('div');
         contentPanel.className = 'tab-content';
         contentPanel.dataset.index = index;
@@ -93,21 +98,15 @@ export function renderFilePreviews(files) {
         tabContainer.appendChild(tab);
         contentContainer.appendChild(contentPanel);
 
-        // Lógica para mostrar el contenido al hacer clic en la pestaña
         tab.addEventListener('click', () => {
-            // Desactiva todas las pestañas y oculta todos los contenidos
             tabContainer.querySelectorAll('.tab-button').forEach(t => t.classList.remove('active'));
             contentContainer.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-
-            // Activa la pestaña y el contenido seleccionados
             tab.classList.add('active');
             contentPanel.classList.add('active');
         });
 
-        // Carga el contenido del archivo en su panel
         displayFileContent(file, contentPanel);
 
-        // Activa la primera pestaña por defecto
         if (index === 0) {
             tab.click();
         }
@@ -123,7 +122,7 @@ function displayFileContent(file, contentPanel) {
 
     reader.onload = (e) => {
         const content = e.target.result;
-        contentPanel.innerHTML = ''; // Limpia el panel por si acaso
+        contentPanel.innerHTML = '';
 
         if (fileType === 'csv') {
             const parsedRows = parseCsv(content);
